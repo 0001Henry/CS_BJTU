@@ -1,0 +1,38 @@
+;在 STR 到 STR+99 单元中存放着一个字符串，
+; 试编写程序测试该字符串中是否有数字，
+; 若有将 CL 置 1，否则 CL 置 0
+ASSUME CS:CODE,DS:DATA,SS:STACK
+DATA SEGMENT
+    ; STR DB 'BJTU2024COMPUTERSCIENCE','$'
+    STR DB 'BJTU','$'
+    CNT EQU $-STR
+DATA ENDS
+
+STACK SEGMENT
+STACK ENDS
+
+CODE SEGMENT
+MAIN:
+    MOV AX,DATA
+    MOV DS,AX
+    
+    LEA SI,STR
+    MOV CX,CNT
+LOOP1:
+    MOV BL,[SI]
+    INC SI
+
+    CMP BL,'0'
+    JL NEXT1
+    CMP BL,'9'
+    JG NEXT1
+    MOV CL,1
+    JMP EXIT
+NEXT1:
+    LOOP LOOP1
+
+EXIT:
+    MOV AH,4CH
+    INT 21H
+CODE ENDS
+    END MAIN 

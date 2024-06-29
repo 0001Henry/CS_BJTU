@@ -1,0 +1,41 @@
+; 设存储单元 A 和 B 各有一带符号字节数，比较大小和正负，
+; 要求将较大数送 RES1 单元；
+; 如果有负数，将一个负数送 RES2，否则 RES2 送-1。
+ASSUME CS:CODE,DS:DATA,SS:STACK
+DATA SEGMENT
+    A DB 2
+    B DB 10
+    RES1 DB ?
+    RES2 DB ?
+DATA ENDS
+
+STACK SEGMENT
+STACK ENDS
+
+CODE SEGMENT
+MAIN:
+    MOV AX,DATA
+    MOV DS,AX
+
+    MOV BH,A
+    MOV BL,B
+
+    CMP BH,BL
+    JG NEXT1
+    XCHG BH,BL
+NEXT1:
+    MOV RES1,BH
+    CMP BL,0
+    JG NEXT2
+    MOV RES2,BL
+    JMP NEXT3
+
+NEXT2:
+    MOV RES2,-1
+    ; MOV BYTE PTR RES2,-1
+
+NEXT3:
+    MOV AH,4CH
+    INT 21H
+CODE ENDS
+    END MAIN 

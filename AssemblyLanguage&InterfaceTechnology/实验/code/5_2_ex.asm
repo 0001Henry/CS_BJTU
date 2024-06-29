@@ -1,0 +1,37 @@
+;  在字节数组中找出第一个负数，并将该负数存入 RES 单元中；
+;  假设该数组中包含 20个带符号数，且至少有 1 个负数。
+ASSUME CS:CODE,DS:DATA,SS:STACK
+DATA SEGMENT
+    ARRAY DB 1,-2,3,4,5,6,7,8,9,10
+        DB 11,12,13,14,15,16,17,18,19,20
+    CNT EQU $-ARRAY
+    RES DB ?
+DATA ENDS
+
+STACK SEGMENT
+STACK ENDS
+
+CODE SEGMENT
+MAIN:
+    MOV AX,DATA
+    MOV DS,AX
+    
+    LEA BX,ARRAY
+    ;MOV BX OFFSET ARRAY
+    MOV CX,20
+LOOP1:
+    MOV AL,[BX]
+    INC BX
+    CMP AL,0
+    JL NEXT1
+    LOOP LOOP1
+    JMP EXIT
+
+NEXT1:
+    MOV RES,AL
+
+EXIT:
+    MOV AH,4CH
+    INT 21H
+CODE ENDS
+    END MAIN 

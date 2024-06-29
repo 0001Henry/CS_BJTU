@@ -1,0 +1,25 @@
+; 内存有一个字节变量 VAL 中存放着小写字符’a’，
+; 请将该字符转换为大写字符并在屏幕中显示出来。
+ASSUME CS:CODE,DS:DATA,SS:STACK
+DATA SEGMENT
+    VAL DB 'a'
+DATA ENDS
+
+STACK SEGMENT
+STACK ENDS
+
+CODE SEGMENT
+MAIN:
+    MOV AX,DATA
+    MOV DS,AX
+
+    MOV DL,VAL
+    SUB DL,20H
+
+    MOV AH,02H 
+    INT 21H
+
+    MOV AH,4CH
+    INT 21H
+CODE ENDS
+    END MAIN 
